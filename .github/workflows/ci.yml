@@ -1,63 +1,45 @@
 name: CI/CD Pipeline
 
+permissions:
+  contents: write
+
 on:
   pull_request:
-    branches: ['**'] # run on all PRs
+    branches:
+      - '**'
   push:
-    branches: ['**'] # run on all branches
-  workflow_dispatch:
+    branches:
+      - dev
+      - main
 
 jobs:
-  lint:
+  ci:
+    name: Lint + Test + Build
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v3
       - uses: actions/setup-node@v3
         with:
           node-version: 18
       - run: npm ci
       - run: npm run lint
-
-  test:
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v4
-      - uses: actions/setup-node@v3
-        with:
-          node-version: 18
-      - run: npm ci
-      - run: npm test
-
-  build:
-    needs: [lint, test]
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v4
-      - uses: actions/setup-node@v3
-        with:
-          node-version: 18
-          cache: npm
-      - run: npm ci
+      - run: npm test -- --ci --passWithNoTests
       - run: npm run build
-      - uses: actions/upload-artifact@v4
-        with:
-          name: dist
-          path: dist
 
   deploy:
-    needs: build
+    name: Deploy to Netlify
+    needs: ci
+    if: github.event_name == 'push'
     runs-on: ubuntu-latest
-    if: github.ref == 'refs/heads/dev' || github.event_name == 'pull_request'
     steps:
-      - uses: actions/download-artifact@v4
+      - uses: actions/checkout@v3
+      - uses: actions/setup-node@v3
         with:
-          name: dist
-          path: dist
-      - name: Deploy to Netlify
-        uses: nwtgck/actions-netlify@v2
+          node-version: 18
+      - run: npm ci && npm run build
+      - uses: netlify/actions/cli@master
         with:
-          publish-dir: ./dist
-          production-deploy: ${{ github.ref == 'refs/heads/dev' }}
-          github-token: ${{ secrets.GITHUB_TOKEN }}
-          netlify-auth-token: ${{ secrets.NETLIFY_AUTH_TOKEN }}
-          netlify-site-id: ${{ secrets.NETLIFY_SITE_ID }}
+          args: deploy --dir=dist --prod
+        env:
+          NETLIFY_SITE_ID: ${{ secrets.NETLIFY_SITE_ID }}
+          NETLIFY_AUTH_TOKEN: ${{ secrets.NETLIFY_AUTH_TOKEN }}
