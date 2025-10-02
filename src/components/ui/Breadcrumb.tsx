@@ -5,23 +5,19 @@ import { Link, To, useLocation, useNavigate } from 'react-router-dom';
 
 import { cn } from '@/utils/tw-clsx';
 
-const CondetionalLink: FC<{
-  condetion: boolean;
+const ConditionalLink: FC<{
+  condition: boolean;
   text: string;
   to: To;
-}> = ({ condetion, to, text }) => {
-  return (
-    <>
-      {condetion ? (
-        <Link to={to} className="capitalize hover:text-blue-600">
-          {decodeURIComponent(text)}
-        </Link>
-      ) : (
-        <span className="capitalize font-medium text-gray-900">
-          {decodeURIComponent(text)}
-        </span>
-      )}
-    </>
+}> = ({ condition, to, text }) => {
+  return condition ? (
+    <Link to={to} className="capitalize hover:text-blue-600">
+      {decodeURIComponent(text)}
+    </Link>
+  ) : (
+    <span className="capitalize font-medium text-gray-900">
+      {decodeURIComponent(text)}
+    </span>
   );
 };
 
@@ -29,11 +25,8 @@ const Breadcrumb: FC = () => {
   const location = useLocation();
   const navigate = useNavigate();
 
-  // strip the basename automatically
-  const path = location.pathname;
-  const pathnames = path.split('/').filter(Boolean);
+  const pathnames = location.pathname.split('/').filter(Boolean);
 
-  // Build parent path without the basePath
   const parentPath =
     pathnames.length > 0 ? `/${pathnames.slice(0, -1).join('/')}` : null;
 
@@ -56,10 +49,10 @@ const Breadcrumb: FC = () => {
       <nav aria-label="breadcrumb">
         <ol className="flex items-center text-sm text-gray-600">
           <li>
-            <CondetionalLink
+            <ConditionalLink
               to="/"
               text="Home"
-              condetion={!!pathnames.length}
+              condition={!!pathnames.length}
             />
           </li>
 
@@ -70,10 +63,10 @@ const Breadcrumb: FC = () => {
             return (
               <li key={to} className="flex items-center">
                 <ChevronRight className="w-4 h-4 mx-2 text-gray-400" />
-                <CondetionalLink
+                <ConditionalLink
                   to={to}
                   text={decodeURIComponent(value)}
-                  condetion={!isLast}
+                  condition={!isLast}
                 />
               </li>
             );
