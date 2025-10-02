@@ -1,7 +1,4 @@
-name: CI/CD Pipeline
-
-permissions:
-  contents: write
+name: CI Checks
 
 on:
   pull_request:
@@ -13,8 +10,7 @@ on:
       - main
 
 jobs:
-  ci:
-    name: Lint + Test + Build
+  lint:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v3
@@ -23,23 +19,23 @@ jobs:
           node-version: 18
       - run: npm ci
       - run: npm run lint
-      - run: npm test -- --ci --passWithNoTests
-      - run: npm run build
 
-  deploy:
-    name: Deploy to Netlify
-    needs: ci
-    if: github.event_name == 'push'
+  test:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v3
       - uses: actions/setup-node@v3
         with:
           node-version: 18
-      - run: npm ci && npm run build
-      - uses: netlify/actions/cli@master
+      - run: npm ci
+      - run: npm test -- --ci --passWithNoTests
+
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      - uses: actions/setup-node@v3
         with:
-          args: deploy --dir=dist --prod
-        env:
-          NETLIFY_SITE_ID: ${{ secrets.NETLIFY_SITE_ID }}
-          NETLIFY_AUTH_TOKEN: ${{ secrets.NETLIFY_AUTH_TOKEN }}
+          node-version: 18
+      - run: npm ci
+      - run: npm run build
