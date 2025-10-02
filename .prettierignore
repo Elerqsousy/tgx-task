@@ -1,0 +1,10 @@
+# Build artifacts
+build
+dist
+coverage
+
+# Dependencies
+node_modules
+
+# Other files
+.env
