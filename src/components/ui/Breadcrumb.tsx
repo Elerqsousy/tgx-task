@@ -1,11 +1,11 @@
-import React from 'react';
+import { FC } from 'react';
 
 import { ChevronRight, ArrowLeft } from 'lucide-react';
 import { Link, To, useLocation, useNavigate } from 'react-router-dom';
 
 import { cn } from '@/utils/tw-clsx';
 
-const CondetionalLink: React.FC<{
+const CondetionalLink: FC<{
   condetion: boolean;
   text: string;
   to: To;
@@ -25,29 +25,22 @@ const CondetionalLink: React.FC<{
   );
 };
 
-const Breadcrumb: React.FC = () => {
+const Breadcrumb: FC = () => {
   const location = useLocation();
   const navigate = useNavigate();
 
-  const basePath = '/tgx-task';
+  // strip the basename automatically
+  const path = location.pathname;
+  const pathnames = path.split('/').filter(Boolean);
 
-  // Remove the /tgx-task prefix before splitting
-  const path = location.pathname.startsWith(basePath)
-    ? location.pathname.replace(basePath, '')
-    : location.pathname;
-
-  const pathnames = path.split('/').filter((x) => x);
-
-  // Determine parent path for back button
+  // Build parent path without the basePath
   const parentPath =
-    pathnames.length > 0
-      ? `${basePath}/${pathnames.slice(0, -1).join('/')}`
-      : null;
+    pathnames.length > 0 ? `/${pathnames.slice(0, -1).join('/')}` : null;
 
   return (
-    <div className="flex items-center space-x-4">
+    <div className="flex items-center space-x-4 p-4">
       <button
-        onClick={() => navigate(parentPath || basePath)}
+        onClick={() => navigate(parentPath || '/')}
         className={cn(
           'flex items-center text-sm rounded-md px-3 py-1',
           parentPath
@@ -64,14 +57,14 @@ const Breadcrumb: React.FC = () => {
         <ol className="flex items-center text-sm text-gray-600">
           <li>
             <CondetionalLink
-              to={`${basePath}/`}
+              to="/"
               text="Home"
               condetion={!!pathnames.length}
             />
           </li>
 
           {pathnames.map((value, idx) => {
-            const to = `${basePath}/${pathnames.slice(0, idx + 1).join('/')}`;
+            const to = `/${pathnames.slice(0, idx + 1).join('/')}`;
             const isLast = idx === pathnames.length - 1;
 
             return (

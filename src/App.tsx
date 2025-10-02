@@ -1,17 +1,14 @@
-import { BrowserRouter, Routes, Route } from 'react-router-dom';
+import { BrowserRouter } from 'react-router-dom';
 
-import Home from './pages/Home';
+import AppRoutes from './routes';
 import Breadcrumb from '@/components/ui/Breadcrumb';
 
 function App() {
   return (
-    <BrowserRouter>
-      <div className="p-4">
+    <BrowserRouter basename="/tgx-task">
+      <div className="h-screen flex flex-col max-h-screen overflow-hidden">
         <Breadcrumb />
-
-        <Routes>
-          <Route path="/" element={<Home />} />
-        </Routes>
+        <AppRoutes />
       </div>
     </BrowserRouter>
   );
