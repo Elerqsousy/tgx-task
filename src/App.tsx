@@ -1,16 +1,20 @@
-import React from 'react';
+import { BrowserRouter, Routes, Route } from 'react-router-dom';
 
-import './index.css';
+import Home from './pages/Home';
+import Breadcrumb from '@/components/ui/Breadcrumb';
 
-import ExampleComponent from './components/ExampleComponent';
-
-const App: React.FC = () => {
+function App() {
   return (
-    <div className="App">
-      <h1 className="text-3xl font-bold underline">React app</h1>
-      <ExampleComponent />
-    </div>
+    <BrowserRouter>
+      <div className="p-4">
+        <Breadcrumb />
+
+        <Routes>
+          <Route path="/" element={<Home />} />
+        </Routes>
+      </div>
+    </BrowserRouter>
   );
-};
+}
 
 export default App;
