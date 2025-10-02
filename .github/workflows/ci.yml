@@ -1,21 +1,11 @@
 name: CI/CD Pipeline
 
-permissions:
-  contents: read
-  pages: write
-  id-token: write
-
-concurrency:
-  group: 'pages'
-  cancel-in-progress: true
-
 on:
   pull_request:
-    branches: ['**'] # run lint + test on all PRs
+    branches: ['**'] # run on all PRs
   push:
-    branches:
-      - dev # deploy only when pushing to dev
-  workflow_dispatch: # allow manual trigger
+    branches: ['**'] # run on all branches
+  workflow_dispatch:
 
 jobs:
   lint:
@@ -49,18 +39,25 @@ jobs:
           cache: npm
       - run: npm ci
       - run: npm run build
-      - name: Upload build artifact for Pages
-        uses: actions/upload-pages-artifact@v3
+      - uses: actions/upload-artifact@v4
         with:
-          path: ./dist # adjust if your build folder is different
+          name: dist
+          path: dist
 
   deploy:
     needs: build
     runs-on: ubuntu-latest
-    environment:
-      name: github-pages
-      url: ${{ steps.deployment.outputs.page_url }}
+    if: github.ref == 'refs/heads/dev' || github.event_name == 'pull_request'
     steps:
-      - name: Deploy to GitHub Pages
-        id: deployment
-        uses: actions/deploy-pages@v4
+      - uses: actions/download-artifact@v4
+        with:
+          name: dist
+          path: dist
+      - name: Deploy to Netlify
+        uses: nwtgck/actions-netlify@v2
+        with:
+          publish-dir: ./dist
+          production-deploy: ${{ github.ref == 'refs/heads/dev' }}
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+          netlify-auth-token: ${{ secrets.NETLIFY_AUTH_TOKEN }}
+          netlify-site-id: ${{ secrets.NETLIFY_SITE_ID }}
