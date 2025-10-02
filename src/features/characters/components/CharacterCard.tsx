@@ -1,3 +1,5 @@
+import { FC } from 'react';
+
 import { Link } from 'react-router-dom';
 
 type CharacterCardProps = {
@@ -6,7 +8,7 @@ type CharacterCardProps = {
   image: string;
 };
 
-export const CharacterCard = ({ id, name, image }: CharacterCardProps) => {
+export const CharacterCard: FC<CharacterCardProps> = ({ id, name, image }) => {
   return (
     <Link
       to={`${id}`}
