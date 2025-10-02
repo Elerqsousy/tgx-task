@@ -12,6 +12,7 @@
   "aliases": {
     "components": "@/components",
     "pages": "@/routes",
-    "utils": "@/utils"
+    "utils": "@/utils",
+    "features/characters": "@characters"
   }
 }
