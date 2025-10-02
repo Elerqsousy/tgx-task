@@ -9,19 +9,19 @@ const Character = () => {
   const { id } = useParams<{ id: string }>();
   const location = useLocation();
 
-  // ✅ character from navigation state
   const character: CharacterType | undefined = location.state?.character;
 
-  // ✅ Only fetch if no character in state
   const { data, isLoading, isError } = useCharacter(id!, {
     enabled: !character,
   });
+
+  console.log(character);
 
   if (!character && isLoading) {
     return <div className="text-center">Loading...</div>;
   }
 
-  if (!character || isError) {
+  if (!character && isError) {
     return (
       <div className="text-center text-red-500">Error loading character</div>
     );
@@ -29,7 +29,7 @@ const Character = () => {
 
   return (
     <div className="p-6">
-      <CharacterDetails character={character || data} />
+      <CharacterDetails character={(character || data)!} />
     </div>
   );
 };
