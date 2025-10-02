@@ -10,6 +10,8 @@
     "prefix": ""
   },
   "aliases": {
-    "components": "@/components"
+    "components": "@/components",
+    "pages": "@/routes",
+    "utils": "@/utils"
   }
 }

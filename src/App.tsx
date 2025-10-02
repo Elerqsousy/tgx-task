@@ -1,16 +1,17 @@
-import React from 'react';
+import { BrowserRouter } from 'react-router-dom';
 
-import './index.css';
+import AppRoutes from './routes';
+import Breadcrumb from '@/components/ui/Breadcrumb';
 
-import ExampleComponent from './components/ExampleComponent';
-
-const App: React.FC = () => {
+function App() {
   return (
-    <div className="App">
-      <h1 className="text-3xl font-bold underline">React app</h1>
-      <ExampleComponent />
-    </div>
+    <BrowserRouter basename="/tgx-task">
+      <div className="h-screen flex flex-col max-h-screen overflow-hidden">
+        <Breadcrumb />
+        <AppRoutes />
+      </div>
+    </BrowserRouter>
   );
-};
+}
 
 export default App;
