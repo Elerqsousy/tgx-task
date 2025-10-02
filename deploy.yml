@@ -36,8 +36,7 @@ jobs:
         with:
           node-version: 18
       - run: npm ci
-      - run: npm test -- --passWithNoTests
-
+      - run: npm test
   build:
     needs: [lint, test]
     runs-on: ubuntu-latest
