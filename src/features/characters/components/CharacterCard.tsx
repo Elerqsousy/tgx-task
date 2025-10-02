@@ -2,21 +2,23 @@ import { FC } from 'react';
 
 import { Link } from 'react-router-dom';
 
+import { Character } from '@/api/rickAndMortyTypes';
+
 type CharacterCardProps = {
   id: number;
-  name: string;
-  image: string;
+  character: Character;
 };
 
-export const CharacterCard: FC<CharacterCardProps> = ({ id, name, image }) => {
+export const CharacterCard: FC<CharacterCardProps> = ({ id, character }) => {
   return (
     <Link
       to={`${id}`}
+      state={{ character }}
       className="rounded-xl shadow-md hover:scale-105 transition block bg-white"
     >
       <img
-        src={image}
-        alt={name}
+        src={character.image}
+        alt={character.name}
         className="rounded-t-xl w-full h-40 sm:h-48 md:h-56 lg:h-64 object-cover"
       />
       <div
@@ -26,7 +28,7 @@ export const CharacterCard: FC<CharacterCardProps> = ({ id, name, image }) => {
           text-sm sm:text-base md:text-lg lg:text-xl
         "
       >
-        {name}
+        {character.name}
       </div>
     </Link>
   );

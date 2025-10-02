@@ -1,10 +1,12 @@
 import { FC } from 'react';
 
+import { Character } from '@/api/rickAndMortyTypes';
+
 type CharacterDetailsProps = {
-  character: any;
+  character: Character;
 };
 
-type item = { title: string; details: string };
+type item = { title: string; details: string | number };
 
 const Details: FC<{ list: item[] }> = ({ list }) => (
   <ul className="mt-2 space-y-1">
