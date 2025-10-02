@@ -3,6 +3,7 @@ import { useLocation, useParams } from 'react-router-dom';
 import { useCharacter } from '@/features/characters/hooks/useCharacters';
 
 import { Character as CharacterType } from '@/api/rickAndMortyTypes';
+import Breadcrumb from '@/components/ui/Breadcrumb';
 import { CharacterDetails } from '@/features/characters/components/CharacterDetails';
 
 const Character = () => {
@@ -15,8 +16,6 @@ const Character = () => {
     enabled: !character,
   });
 
-  console.log(character);
-
   if (!character && isLoading) {
     return <div className="text-center">Loading...</div>;
   }
@@ -28,8 +27,11 @@ const Character = () => {
   }
 
   return (
-    <div className="p-6">
-      <CharacterDetails character={(character || data)!} />
+    <div>
+      <Breadcrumb />
+      <div className="p-6">
+        <CharacterDetails character={(character || data)!} />
+      </div>
     </div>
   );
 };

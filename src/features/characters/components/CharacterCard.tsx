@@ -5,14 +5,13 @@ import { Link } from 'react-router-dom';
 import { Character } from '@/api/rickAndMortyTypes';
 
 type CharacterCardProps = {
-  id: number;
   character: Character;
 };
 
-export const CharacterCard: FC<CharacterCardProps> = ({ id, character }) => {
+export const CharacterCard: FC<CharacterCardProps> = ({ character }) => {
   return (
     <Link
-      to={`${id}`}
+      to={`${character.id}`}
       state={{ character }}
       className="rounded-xl shadow-md hover:scale-105 transition block bg-white"
     >
