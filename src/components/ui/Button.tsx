@@ -17,7 +17,7 @@ const Button: FC<ButtonProps> = ({
   endIcon,
   text,
   onClick = () => {},
-  disabled = true,
+  disabled = false,
 }) => {
   return (
     <button
