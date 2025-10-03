@@ -15,8 +15,6 @@ const Character = () => {
     enabled: !character,
   });
 
-  console.log(character);
-
   if (!character && isLoading) {
     return <div className="text-center">Loading...</div>;
   }

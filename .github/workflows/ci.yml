@@ -28,7 +28,7 @@ jobs:
         with:
           node-version: 18
       - run: npm ci
-      - run: npm test -- --ci --passWithNoTests
+      - run: npm test
 
   build:
     runs-on: ubuntu-latest
