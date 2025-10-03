@@ -40,7 +40,7 @@ const Breadcrumb: FC = () => {
         text="Back"
         onClick={handleBack}
         disabled={!parentPath}
-        startIcon={<ArrowLeft className="w-4 h-4 mr-1" />}
+        startIcon={<ArrowLeft className="w-4 h-4" />}
       />
 
       <nav aria-label="breadcrumb">
