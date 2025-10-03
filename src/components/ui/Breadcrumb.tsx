@@ -3,7 +3,7 @@ import { FC } from 'react';
 import { ChevronRight, ArrowLeft } from 'lucide-react';
 import { Link, To, useLocation, useNavigate } from 'react-router-dom';
 
-import { cn } from '@/utils/tw-clsx';
+import Button from './Button';
 
 const ConditionalLink: FC<{
   condition: boolean;
@@ -30,21 +30,18 @@ const Breadcrumb: FC = () => {
   const parentPath =
     pathnames.length > 0 ? `/${pathnames.slice(0, -1).join('/')}` : null;
 
+  const handleBack = () => {
+    navigate(parentPath || '/');
+  };
+
   return (
     <div className="flex items-center space-x-4 p-4">
-      <button
-        onClick={() => navigate(parentPath || '/')}
-        className={cn(
-          'flex items-center text-sm rounded-md px-3 py-1',
-          parentPath
-            ? 'text-gray-600 hover:text-blue-600 border border-gray-600'
-            : 'text-gray-400 cursor-not-allowed border border-gray-200'
-        )}
+      <Button
+        text="Back"
+        onClick={handleBack}
         disabled={!parentPath}
-      >
-        <ArrowLeft className="w-4 h-4 mr-1" />
-        Back
-      </button>
+        startIcon={<ArrowLeft className="w-4 h-4 mr-1" />}
+      />
 
       <nav aria-label="breadcrumb">
         <ol className="flex items-center text-sm text-gray-600">

@@ -1,5 +1,7 @@
 import { FC } from 'react';
 
+import Button from './Button';
+
 type PaginationProps = {
   page: number;
   onPrevious: () => void;
@@ -15,23 +17,11 @@ const Pagination: FC<PaginationProps> = ({
 }) => {
   return (
     <div className="flex justify-center items-center gap-4 mt-4 sm:mt-6 md:mt-8">
-      <button
-        disabled={page === 1}
-        onClick={onPrevious}
-        className="px-3 sm:px-4 py-2 bg-gray-200 rounded-md disabled:opacity-50 text-sm sm:text-base"
-      >
-        Prev
-      </button>
+      <Button disabled={page === 1} onClick={onPrevious} text="Prev" />
       <span className="text-sm sm:text-base md:text-lg font-medium px-10">
         {page}
       </span>
-      <button
-        disabled={nextDisabled}
-        onClick={onNext}
-        className="px-3 sm:px-4 py-2 bg-gray-200 rounded-md disabled:opacity-50 text-sm sm:text-base"
-      >
-        Next
-      </button>
+      <Button text="Next" disabled={nextDisabled} onClick={onNext} />
     </div>
   );
 };
