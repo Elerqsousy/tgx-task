@@ -9,8 +9,10 @@ const Character = () => {
   const { id } = useParams<{ id: string }>();
   const location = useLocation();
 
+  // Primary: Activated while navigating from the home page
   const character: CharacterType | undefined = location.state?.character;
 
+  // Activated only on manually intering a URL
   const { data, isLoading, isError } = useCharacter(id!, {
     enabled: !character,
   });
