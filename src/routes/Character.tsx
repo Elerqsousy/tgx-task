@@ -3,7 +3,6 @@ import { useLocation, useParams } from 'react-router-dom';
 import { useCharacter } from '@/features/characters/hooks/useCharacters';
 
 import { Character as CharacterType } from '@/api/rickAndMortyTypes';
-import Breadcrumb from '@/components/ui/Breadcrumb';
 import { CharacterDetails } from '@/features/characters/components/CharacterDetails';
 
 const Character = () => {
@@ -27,11 +26,8 @@ const Character = () => {
   }
 
   return (
-    <div>
-      <Breadcrumb />
-      <div className="p-6">
-        <CharacterDetails character={(character || data)!} />
-      </div>
+    <div className="p-6">
+      <CharacterDetails character={(character || data)!} />
     </div>
   );
 };

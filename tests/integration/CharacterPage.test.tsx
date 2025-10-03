@@ -6,6 +6,7 @@ import { describe, test, expect } from 'vitest';
 
 import userEvent from '@testing-library/user-event';
 
+import Breadcrumb from '../../src/components/ui/Breadcrumb';
 import Character from '../../src/routes/Character';
 import { createQueryClientWrapper } from '../utils/createQueryClientWrapper';
 
@@ -69,6 +70,7 @@ describe('CharacterPage', () => {
   test('has working navigation breadcrumb', async () => {
     render(
       <MemoryRouter initialEntries={['/1']}>
+        <Breadcrumb />
         <Routes>
           <Route path="/:id" element={<Character />} />
         </Routes>
@@ -86,6 +88,7 @@ describe('CharacterPage', () => {
     const user = userEvent.setup();
     render(
       <MemoryRouter initialEntries={['/1']}>
+        <Breadcrumb />
         <Routes>
           <Route path="/:id" element={<Character />} />
         </Routes>
@@ -107,6 +110,7 @@ describe('CharacterPage', () => {
   test('breadcrumb shows correct navigation path', async () => {
     render(
       <MemoryRouter initialEntries={['/1']}>
+        <Breadcrumb />
         <Routes>
           <Route path="/:id" element={<Character />} />
         </Routes>
