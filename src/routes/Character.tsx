@@ -12,7 +12,7 @@ const Character = () => {
   // Primary: Activated while navigating from the home page
   const character: CharacterType | undefined = location.state?.character;
 
-  // Activated only on manually intering a URL
+  // Activated only on manually entering a URL
   const { data, isLoading, isError } = useCharacter(id!, {
     enabled: !character,
   });
